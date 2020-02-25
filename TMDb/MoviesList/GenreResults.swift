@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct GenreResults : Codable {
+struct GenreResults : Codable {//TODO: remove the space between : and struct name
     var genres: [GenreModel]
+    //TODO: no need for init method
     init(movieGenres: [GenreModel]){
         self.genres =  movieGenres
     }

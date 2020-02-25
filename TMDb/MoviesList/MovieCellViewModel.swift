@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-struct MovieCellViewModel {
+struct MovieCellViewModel {//TODO: remove the new line between struct starting bracket and variable name
     
     var posterPath: String?
     var title: String?

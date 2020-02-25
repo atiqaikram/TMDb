@@ -11,26 +11,30 @@ import UIKit
 class MoviesViewController: UIViewController {
    
    
-    let datePicker : UIDatePicker = UIDatePicker()
+    let datePicker : UIDatePicker = UIDatePicker() //TODO: remove space between variable name and :
     let genrePicker: UIPickerView = UIPickerView()
     var dateToolBar: UIToolbar    = UIToolbar()
     var genreToolBar: UIToolbar   = UIToolbar()
     
-    @IBOutlet weak var moviesTableView   : UITableView! 
-    @IBOutlet weak var genreButton : UIBarButtonItem!
-    @IBOutlet weak var filterButton: UIBarButtonItem!
+    //TODO: the variable types should be aligned the way i did it below
+    @IBOutlet weak var moviesTableView  : UITableView! //TODO: remove space between variable name and :
+    @IBOutlet weak var genreButton      : UIBarButtonItem! //TODO: remove space between variable name and :
+    @IBOutlet weak var filterButton     : UIBarButtonItem!
     
     var moviesViewModel = MoviesViewModel()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        //TODO: these properties ("estimatedRowHeight", "rowHeight") can be set in storyboard and no need to put them in code
         moviesTableView.rowHeight = UITableView.automaticDimension
         moviesTableView.estimatedRowHeight = 600
+        //TODO: if you have set those in storyboard no need to explicitly set these delegates and data sources in code
         moviesTableView.delegate = self
         moviesTableView.dataSource = self
         genrePicker.delegate = self
         genrePicker.dataSource = self
+        //TODO: These calls to download movies should be moved to bindVM method. and should be called after the bind has already been called.
         moviesViewModel.downloadMovies()
         moviesViewModel.downloadGenres()
         bindVM()
@@ -56,6 +60,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //TODO: remove the //CR: comment below as you already have made the changes
         //CR: move identifier to constant file and follow the constant pattern from weather project
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.MovieCell, for: indexPath) as? MovieCell else {
            return UITableViewCell()
@@ -65,6 +70,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //TODO: move identifier for "Movie Detail" to constant file and follow the constant pattern from weather project
         if let movieDetailViewController = storyboard?.instantiateViewController(withIdentifier: "Movie Detail") as? MoviesDetailsViewController {
             
             let movie = moviesViewModel.getMovie(index: indexPath.row)
@@ -101,6 +107,7 @@ extension MoviesViewController {
             filterButton.title = "Filter"
         }
         else {
+            //TDOD: instead of creating the picker again and again you could simply create the picker in storyboard and set it hidden or show depending upon user's state
            datePicker.isHidden = false
            datePicker.datePickerMode = UIDatePicker.Mode.date
            datePicker.frame = CGRect.init(x: 0.0, y: UIScreen.main.bounds.size.height - 200, width: UIScreen.main.bounds.size.width, height: 200)
@@ -113,7 +120,7 @@ extension MoviesViewController {
            self.view.addSubview(datePicker)
        }
     }
-    
+    //TODO: method is not properly indent there's extra space. Also when you create the picker through storyboard remove @objc for this method.
        @objc func onDateDoneButtonTapped() {
         
             dateToolBar.removeFromSuperview()
@@ -122,7 +129,7 @@ extension MoviesViewController {
             datePicker.removeFromSuperview()
             releaseDateSelected(sender: datePicker)
         }
-    
+    //TODO: method is not properly indent there's extra space also there's no need for this method to be OBJC
       @objc func releaseDateSelected(sender: UIDatePicker){
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -141,6 +148,7 @@ extension MoviesViewController {
             genreButton.title = "Genre"
         }
         else{
+            //TDOD: instead of creating the picker again and again you could simply create the picker in storyboard and set it hidden or show depending upon user's state
             genrePicker.isHidden = false
             genreToolBar.isHidden = false
             genrePicker.backgroundColor = .white
@@ -153,7 +161,7 @@ extension MoviesViewController {
             self.view.addSubview(genrePicker)
         }
     }
-    
+    //TODO: method is not properly indent there's extra space. Also when you create the picker through storyboard remove @objc for this method.
     @objc func onGenreDoneButtonTapped() {
            genreToolBar.removeFromSuperview()
            genrePicker.isHidden = true

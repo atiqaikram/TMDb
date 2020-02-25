@@ -10,11 +10,12 @@ import UIKit
 
 class MoviesDetailsViewController: UIViewController {
 
-    @IBOutlet weak var moviePoster: UIImageView!
-    @IBOutlet weak var movieTitle: UILabel!
-    @IBOutlet weak var movieRating: UILabel!
-    @IBOutlet weak var movieReleaseDate: UILabel!
-    @IBOutlet weak var movieOverview: UITextView!
+    //TODO: the variable types should be aligned the way i did it below
+    @IBOutlet weak var moviePoster:         UIImageView!
+    @IBOutlet weak var movieTitle:          UILabel!
+    @IBOutlet weak var movieRating:         UILabel!
+    @IBOutlet weak var movieReleaseDate:    UILabel!
+    @IBOutlet weak var movieOverview:       UITextView!
     
     var viewModel = MovieDetailViewModel()
     
@@ -30,7 +31,7 @@ class MoviesDetailsViewController: UIViewController {
     
     func setMovieDetailImage(from url: String) {
         guard let imageURL = URL(string: url) else { return }
-        DispatchQueue.global().async {
+        DispatchQueue.global().async {//TODO: capture weak reference of self
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
 
             let image = UIImage(data: imageData)

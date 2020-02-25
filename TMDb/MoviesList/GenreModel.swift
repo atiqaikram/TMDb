@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct GenreModel : Codable {
+struct GenreModel : Codable {//TODO: There shouldn't be a space between : and struct name and also remove the extra new line below between variable id and struct starting bracket
     
     var id: Int?
     var name: String?

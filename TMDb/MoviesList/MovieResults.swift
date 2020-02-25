@@ -9,7 +9,7 @@
 import Foundation
 struct MovieResults : Codable {
     var results: [MovieModel]
-    
+    //TODO: no need for init method
     init(movies: [MovieModel]){
         self.results =  movies
     }
