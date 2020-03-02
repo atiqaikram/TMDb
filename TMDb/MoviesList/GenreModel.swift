@@ -8,8 +8,7 @@
 
 import Foundation
 
-struct GenreModel : Codable {
-    
-    var id: Int?
-    var name: String?
+struct GenreModel: Codable{
+    var id:    Int?
+    var name:  String?
 }

@@ -8,15 +8,16 @@
 
 import Foundation
 
-enum URLS {
-    
-    static let image = "https://image.tmdb.org/t/p/w500"
+enum URLS{
+    static let image    = "https://image.tmdb.org/t/p/w500"
     static let trending = URL(string: "https://api.themoviedb.org/3/trending/movie/day?api_key=0dc10f29ec705eedb41fdb912bbb063e")
-    static let genres = URL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=0dc10f29ec705eedb41fdb912bbb063e&language=en-US")
+    static let genres   = URL(string: "https://api.themoviedb.org/3/genre/movie/list?api_key=0dc10f29ec705eedb41fdb912bbb063e&language=en-US")
 }
 
-enum Identifiers {
-    
-    static let MovieCell = "MovieCell"
+enum Identifiers{
+    static let MovieCell   = "MovieCell"
+    static let MovieDetail = "Movie Detail"
 }
+
+let CLIENT_ID = "932403838453-912enj84g046tpinn4q55berpde3ufqq.apps.googleusercontent.com"
 

@@ -8,34 +8,23 @@
 
 import Foundation
 
-protocol DataModelDecoder {}
+protocol DataModelDecoder{}
 
-extension DataModelDecoder  {
-    func decodeModel<DataModel: Codable>(data: Data?) throws -> DataModel? {
-        
+extension DataModelDecoder{
+    func decodeModel<DataModel: Codable>(data: Data?) throws -> DataModel?{
         guard let data = data else {
             return nil
         }
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do{
             let downloadedResults = try decoder.decode(DataModel.self, from: data)
             return downloadedResults
             
         }
         catch {
-            print("something went wrong after downloaded")
             return nil
         }
-    
     }
 }
 
-
-/*class a {
-    let b = NetworkHandler()
-    func c () {
-        b.downloadMoviesJson { movies in
-            
-        }
-    }
-}*/

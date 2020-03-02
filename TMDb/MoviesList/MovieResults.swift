@@ -7,10 +7,6 @@
 //
 
 import Foundation
-struct MovieResults : Codable {
+struct MovieResults: Codable{
     var results: [MovieModel]
-    
-    init(movies: [MovieModel]){
-        self.results =  movies
-    }
 }

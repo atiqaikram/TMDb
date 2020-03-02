@@ -17,13 +17,11 @@ class Bindable<T>{
             listener?(value)
         }
     }
-    
     /// initialises the Bindable object with value
     /// - Parameter val: value to be set for *value* property  of *Bindable* object
     init(_ val: T) {
         value = val
     }
-    
     /// binds the passed listener to the class  listener property
     /// - Parameter listener: closure  of the type (T)->()
     func bind(_ listener: Listener?){

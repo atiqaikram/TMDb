@@ -7,64 +7,101 @@
 //
 
 import Foundation
+import FirebaseDatabase
+enum state{
+    case defaultView
+    case genre
+    case date
+}
+class MoviesViewModel {
+    private var movies:          Bindable<[MovieModel]> = Bindable([MovieModel] ())
+    private var genres:          [GenreModel] = [GenreModel] ()
+    private var originalMovies:  [MovieModel] = [MovieModel]()
+    private var moviesService =  MoviesService(handler: NetworkHandler())
+    private var viewState:       state = .defaultView
+    private var ref:             DatabaseReference?
 
-class MoviesViewModel  {
-    private var movies : Bindable<[MovieModel]> = Bindable([MovieModel] ())
-    private var genres : [GenreModel] = [GenreModel] () 
-    private var originalMovies : [MovieModel] = [MovieModel]()
-    var moviesService = MoviesService(handler: NetworkHandler())
     func downloadMovies(){
-        moviesService.fetchMovies { (MovieResults) in
-            if MovieResults != nil {
-                self.movies.value = MovieResults!.results
-                self.originalMovies = self.movies.value
-            }
-            else {
+        moviesService.fetchMovies (completion: { [weak self] (MovieResults) in
+            guard let movies = MovieResults else {
                 return
             }
-        }
-    }
-    
+            self?.movies.value = movies.results
+            self?.originalMovies = movies.results
+        })
+   }
     func downloadGenres(){
-        moviesService.fetchGenres(completion: { (GenreResults) in
-            if GenreResults != nil {
-                self.genres = GenreResults!.genres
-            }
-            else {
+        moviesService.fetchGenres(completion: { [weak self] (GenreResults) in
+            guard let genreResults = GenreResults else {
                 return
             }
+            self?.genres = genreResults.genres
         })
     }
-   
     func resetMoviesList(){
-        self.movies.value = self.originalMovies
+        movies.value = originalMovies
     }
-    func getGenreCount() -> Int {
-        return self.genres.count
+    func genreCount() -> Int {
+        return genres.count
     }
-    func getGenreName(index: Int) -> String {
-        guard let genreName =  self.genres[index].name else {return ""}
+    func genreName(index: Int) -> String {
+        guard let genreName =  genres[index].name else {return ""}
         return genreName
     }
-    func getGenreId(index: Int) -> Int{
-        guard let genreID = self.genres[index].id  else {return 0}
+    func genreId(index: Int) -> Int{
+        guard let genreID = genres[index].id  else {return 0}
         return genreID
     }
-    func getMovieCount() -> Int {
-        return self.movies.value.count
+    func movieCount() -> Int {
+        return movies.value.count
     }
-    func getMovie(index: Int) -> MovieModel {
-        return self.movies.value[index]
+    func movieToShow(index: Int) -> MovieModel {
+        if movies.value[index].isFavorite == nil {
+            movies.value[index].isFavorite = false
+        }
+        return movies.value[index]
     }
-    func getMovieList() -> Bindable<[MovieModel]> {
-        return self.movies
+    func movieList() -> Bindable<[MovieModel]> {
+        return movies
     }
     func releaseDateFilter(date: String){
-        self.movies.value = self.movies.value.filter({ $0.release_date == date })
+       movies.value = movies.value.filter({ $0.releaseDate == date })
     }
     func genreFilter(genreID: Int){
-        self.movies.value = self.movies.value.filter({ $0.genre_ids?.contains(genreID) == true })
+        movies.value = movies.value.filter({ ($0.genreIds?.contains(genreID))!})
     }
+    func currentState()-> state{
+        return viewState
+    }
+    func setState(changedState: state){
+        viewState = changedState
+    }
+    func observeAddedChild(){
+        ref = Database.database().reference()
+        guard let user = userID.shared.id else { return }
+        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childAdded, with: { (snapshot) in
+            let favoriteMovieTitle = (snapshot.key)
+            self.setFavoriteValueOf(movie: favoriteMovieTitle, flag: true)
+        }))!)
+    }
+    func observeRemovedChild(){
+        ref = Database.database().reference()
+        guard let user = userID.shared.id else { return }
+        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childRemoved, with: { (snapshot) in
+                   let favoriteMovieTitle = (snapshot.key)
+            self.setFavoriteValueOf(movie: favoriteMovieTitle, flag: false)
+               }))!)
+    }
+    func setFavoriteValueOf(movie: String, flag: Bool){
+        if let movieIndex = movies.value.firstIndex(where: { $0.title == movie }){
+            movies.value[movieIndex].isFavorite = flag
+            if viewState == .defaultView{
+                originalMovies[movieIndex].isFavorite = flag
+            } else {
+                if let originalIndex = originalMovies.firstIndex(where: { $0.title == movie }){
+                    originalMovies[originalIndex].isFavorite = flag
+                }
+            }
+        }
+     }
 }
-
-

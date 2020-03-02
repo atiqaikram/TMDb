@@ -17,9 +17,11 @@
 		4AA1B26E23FBDE7F00035AAE /* GenreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA1B26D23FBDE7F00035AAE /* GenreModel.swift */; };
 		4AA420C923FFE9A80040E254 /* MoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA420C823FFE9A80040E254 /* MoviesService.swift */; };
 		4AA420CB23FFEE460040E254 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA420CA23FFEE460040E254 /* NetworkHandler.swift */; };
+		4AA5C1CE2409460E000EE86C /* userID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA5C1CD2409460E000EE86C /* userID.swift */; };
 		4ABE71C623F5400200ACD62A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE71C523F5400200ACD62A /* MovieCell.swift */; };
 		4ABFCB6B2403ADCD00A22684 /* MovieResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABFCB6A2403ADCD00A22684 /* MovieResults.swift */; };
 		4ABFCB6D2403ADD900A22684 /* GenreResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABFCB6C2403ADD900A22684 /* GenreResults.swift */; };
+		4AE1429C2408F8BF00D69A45 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE1429B2408F8BF00D69A45 /* LoginViewController.swift */; };
 		4AE4652E23F521F400C62C8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE4652D23F521F400C62C8D /* AppDelegate.swift */; };
 		4AE4653023F521F400C62C8D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE4652F23F521F400C62C8D /* SceneDelegate.swift */; };
 		4AE4653223F521F400C62C8D /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE4653123F521F400C62C8D /* MoviesViewController.swift */; };
@@ -53,9 +55,11 @@
 		4AA1B26D23FBDE7F00035AAE /* GenreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreModel.swift; sourceTree = "<group>"; };
 		4AA420C823FFE9A80040E254 /* MoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesService.swift; sourceTree = "<group>"; };
 		4AA420CA23FFEE460040E254 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		4AA5C1CD2409460E000EE86C /* userID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userID.swift; sourceTree = "<group>"; };
 		4ABE71C523F5400200ACD62A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		4ABFCB6A2403ADCD00A22684 /* MovieResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieResults.swift; sourceTree = "<group>"; };
 		4ABFCB6C2403ADD900A22684 /* GenreResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreResults.swift; sourceTree = "<group>"; };
+		4AE1429B2408F8BF00D69A45 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4AE4652A23F521F400C62C8D /* TMDb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AE4652D23F521F400C62C8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AE4652F23F521F400C62C8D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,11 +117,10 @@
 				4AA1B26D23FBDE7F00035AAE /* GenreModel.swift */,
 				4ABFCB6A2403ADCD00A22684 /* MovieResults.swift */,
 				4ABFCB6C2403ADD900A22684 /* GenreResults.swift */,
-				4A0BEB9F23F685930063EE51 /* MovieCellViewModel.swift */,
 				4A0BEBA123F6A0830063EE51 /* MoviesViewModel.swift */,
 				4AE4653123F521F400C62C8D /* MoviesViewController.swift */,
+				4A0BEB9F23F685930063EE51 /* MovieCellViewModel.swift */,
 				4ABE71C523F5400200ACD62A /* MovieCell.swift */,
-				4AE4653323F521F400C62C8D /* Main.storyboard */,
 			);
 			path = MoviesList;
 			sourceTree = "<group>";
@@ -146,6 +149,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		4AE1429A2408F86F00D69A45 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				4AE1429B2408F8BF00D69A45 /* LoginViewController.swift */,
+			);
+			path = "Sign In";
+			sourceTree = "<group>";
+		};
 		4AE4652123F521F400C62C8D = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +180,8 @@
 		4AE4652C23F521F400C62C8D /* TMDb */ = {
 			isa = PBXGroup;
 			children = (
+				4AA5C1CD2409460E000EE86C /* userID.swift */,
+				4AE1429A2408F86F00D69A45 /* Sign In */,
 				4ABFCB722403AF1F00A22684 /* Services */,
 				4ABFCB712403AE9E00A22684 /* Utilities */,
 				4ABFCB6E2403AE5A00A22684 /* Network Handler */,
@@ -176,6 +189,7 @@
 				4AE4655123F5222F00C62C8D /* MovieDetails */,
 				4AFE45B923FD17C300730967 /* Binder */,
 				4A89750523FE58060000D93B /* Constants */,
+				4AE4653323F521F400C62C8D /* Main.storyboard */,
 				4AE4652D23F521F400C62C8D /* AppDelegate.swift */,
 				4AE4652F23F521F400C62C8D /* SceneDelegate.swift */,
 				4AE4653623F521F600C62C8D /* Assets.xcassets */,
@@ -244,6 +258,7 @@
 				4AE4652723F521F400C62C8D /* Frameworks */,
 				4AE4652823F521F400C62C8D /* Resources */,
 				8D18C9EF1EE77148521694EE /* [CP] Embed Pods Frameworks */,
+				CBAA89991E35CA5510265A48 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -394,6 +409,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CBAA89991E35CA5510265A48 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TMDb/Pods-TMDb-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TMDb/Pods-TMDb-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TMDb/Pods-TMDb-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -401,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AE1429C2408F8BF00D69A45 /* LoginViewController.swift in Sources */,
 				4AFE45BB23FD17D500730967 /* Bindable.swift in Sources */,
 				4AE4655323F5286000C62C8D /* MoviesDetailsViewController.swift in Sources */,
 				4AE4653223F521F400C62C8D /* MoviesViewController.swift in Sources */,
@@ -413,6 +446,7 @@
 				4A0BEBA223F6A0830063EE51 /* MoviesViewModel.swift in Sources */,
 				4ABE71C623F5400200ACD62A /* MovieCell.swift in Sources */,
 				4ABFCB6D2403ADD900A22684 /* GenreResults.swift in Sources */,
+				4AA5C1CE2409460E000EE86C /* userID.swift in Sources */,
 				4A4654AC23FFC4FC00E82FB6 /* DataModelDecoder.swift in Sources */,
 				4AE4653023F521F400C62C8D /* SceneDelegate.swift in Sources */,
 				4AFE45BD23FD5D2600730967 /* MovieDetailViewModel.swift in Sources */,

@@ -8,20 +8,9 @@
 
 import Foundation
 struct NetworkHandler{
-    
-    func fetchMoviesData(completion: @escaping (_ data: Data?)-> ()){
-        
-        guard let downloadURL = URLS.trending else { return completion(nil) }
-        URLSession.shared.dataTask(with: downloadURL) { (data, urlResponse, error)  in
-        completion(data)
-        }.resume()
-    }
-    
-    func fetchGenreData(completion: @escaping (_ data: Data?)-> ()){
-        
-        guard let downloadURL = URLS.genres else { return completion(nil) }
-        URLSession.shared.dataTask(with: downloadURL) { (data, urlResponse, error)  in
-        completion(data)
+    func fetchData(path: URL, completion: @escaping (_ data: Data?,_ error: Error?)-> ()){
+        URLSession.shared.dataTask(with: path as URL) { (data, urlResponse, error)  in
+        completion(data, error)
         }.resume()
     }
 }

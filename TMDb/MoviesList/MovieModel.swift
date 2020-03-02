@@ -10,23 +10,12 @@ import UIKit
 
 
 
-struct MovieModel : Codable {
-    
-    var backdrop_path: String?
-    var title: String?
-    var release_date: String?
-    var vote_average: Double?
-    var isFavorite: Bool?
-    var overview: String?
-    var genre_ids: [Int]?
-    
-    init(title: String, rating:Double, releaseDate:String, overview:String, imagepath:String){
-           self.title = title
-           self.vote_average = rating
-           self.release_date = releaseDate
-           self.overview = overview
-           self.backdrop_path = URLS.image + imagepath
-           isFavorite = false
-           
-       }
+struct MovieModel: Codable{
+    var backdropPath:   String?
+    var title:          String?
+    var releaseDate:    String?
+    var voteAverage:    Double?
+    var overview:       String?
+    var genreIds:       [Int]?
+    var isFavorite:     Bool?
 }

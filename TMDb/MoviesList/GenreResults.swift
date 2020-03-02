@@ -8,9 +8,6 @@
 
 import Foundation
 
-struct GenreResults : Codable {
+struct GenreResults: Codable{
     var genres: [GenreModel]
-    init(movieGenres: [GenreModel]){
-        self.genres =  movieGenres
-    }
 }
