@@ -11,6 +11,10 @@ import Foundation
 protocol DataModelDecoder{}
 
 extension DataModelDecoder{
+    /// Data to specified Model decoder, Model must confirm the *Decodable*  protocol
+       /// throws error if failed to decode model
+       /// Returns specified  model or nil in case input *data* parameter is nil or decoding fails
+       /// - Parameter data: *Data* object to be  decoded
     func decodeModel<DataModel: Codable>(data: Data?) throws -> DataModel?{
         guard let data = data else {
             return nil
@@ -22,8 +26,8 @@ extension DataModelDecoder{
             return downloadedResults
             
         }
-        catch {
-            return nil
+        catch (let decodeError) {
+            throw decodeError
         }
     }
 }

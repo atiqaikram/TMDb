@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 class MovieCell: UITableViewCell {
     @IBOutlet weak var moviePoster:     UIImageView!
@@ -18,7 +17,6 @@ class MovieCell: UITableViewCell {
     
     var cellViewModel:                  MovieCellViewModel?
     var movieViewModel:                 MoviesViewModel?
-    private var ref: DatabaseReference?
     @IBAction func favoriteTapped(_ sender: Any) {
         let filledStar = UIImage(named: "filledStar")
         let emptyStar = UIImage(named: "emptyStar")

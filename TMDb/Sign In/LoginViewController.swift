@@ -37,10 +37,9 @@ class LoginViewController: UIViewController, GIDSignInDelegate{
         } else{
             guard let id = user.userID else { return }
             userID.shared.setID(sentId: id)
-            if let movieViewController = storyboard?.instantiateViewController(withIdentifier: "MoviesStoryboard") as? MoviesViewController {
+            if let movieViewController = storyboard?.instantiateViewController(withIdentifier: Identifiers.MovieStoryboard) as? MoviesViewController {
                 self.navigationController?.pushViewController(movieViewController, animated: true)
             }
-           /* guard let email = user.profile.email else { return }*/
         }
     }
 }

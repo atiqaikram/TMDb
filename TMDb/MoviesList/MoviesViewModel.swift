@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import FirebaseDatabase
 enum state{
     case defaultView
     case genre
@@ -17,12 +16,11 @@ class MoviesViewModel {
     private var movies:          Bindable<[MovieModel]> = Bindable([MovieModel] ())
     private var genres:          [GenreModel] = [GenreModel] ()
     private var originalMovies:  [MovieModel] = [MovieModel]()
-    private var moviesService =  MoviesService(handler: NetworkHandler())
-    private var viewState:       state = .defaultView
-    private var ref:             DatabaseReference?
-
+    private var moviesService                 = MoviesService(handler: NetworkHandler())
+    lazy private var firebaseService          = FirebaseService(vm: self)
+    private var viewState:             state  = .defaultView
     func downloadMovies(){
-        moviesService.fetchMovies (completion: { [weak self] (MovieResults) in
+        moviesService.fetchMovies (completion: { [weak self] (MovieResults, error) in
             guard let movies = MovieResults else {
                 return
             }
@@ -31,7 +29,7 @@ class MoviesViewModel {
         })
    }
     func downloadGenres(){
-        moviesService.fetchGenres(completion: { [weak self] (GenreResults) in
+        moviesService.fetchGenres(completion: { [weak self] (GenreResults, error) in
             guard let genreResults = GenreResults else {
                 return
             }
@@ -76,21 +74,11 @@ class MoviesViewModel {
     func setState(changedState: state){
         viewState = changedState
     }
-    func observeAddedChild(){
-        ref = Database.database().reference()
-        guard let user = userID.shared.id else { return }
-        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childAdded, with: { (snapshot) in
-            let favoriteMovieTitle = (snapshot.key)
-            self.setFavoriteValueOf(movie: favoriteMovieTitle, flag: true)
-        }))!)
+    func childAddedListener(){
+        firebaseService.observeAddedChild()
     }
-    func observeRemovedChild(){
-        ref = Database.database().reference()
-        guard let user = userID.shared.id else { return }
-        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childRemoved, with: { (snapshot) in
-                   let favoriteMovieTitle = (snapshot.key)
-            self.setFavoriteValueOf(movie: favoriteMovieTitle, flag: false)
-               }))!)
+    func childRemovedListener(){
+        firebaseService.observeRemovedChild()
     }
     func setFavoriteValueOf(movie: String, flag: Bool){
         if let movieIndex = movies.value.firstIndex(where: { $0.title == movie }){

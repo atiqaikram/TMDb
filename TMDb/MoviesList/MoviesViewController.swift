@@ -17,20 +17,18 @@ class MoviesViewController: UIViewController {
     @IBOutlet weak var bottomContainerView: UIView!
     
     var moviesViewModel = MoviesViewModel()
-    var cellView   = MovieCell()
+    var cellView        = MovieCell()
     
     override func viewDidLoad() {
-        print("email from moviesvc: ", userID.shared.id)
         super.viewDidLoad()
         moviesTableView.rowHeight = UITableView.automaticDimension
         bindVM()
     }
-    
     private func bindVM() {
         moviesViewModel.downloadMovies()
         moviesViewModel.downloadGenres()
-        moviesViewModel.observeAddedChild()
-        moviesViewModel.observeRemovedChild()
+        moviesViewModel.childAddedListener()
+        moviesViewModel.childRemovedListener()
         moviesViewModel.movieList().bind({ [weak self] _ in
         DispatchQueue.main.async {
             self?.moviesTableView.reloadData()

@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import FirebaseDatabase
 
 struct MovieCellViewModel {
     
@@ -19,28 +18,21 @@ struct MovieCellViewModel {
     private var isFavorite:     Bool?
     private var overview:       String?
     private var genreID:        [Int]?
-    private var ref :           DatabaseReference?
     
-    private var moviesVM =  MoviesViewModel()
+    private var moviesVM             = MoviesViewModel()
+    lazy private var firebaseService = FirebaseService()
     
     mutating func markAsFavorite(){
-        ref = Database.database().reference()
-        guard let user = userID.shared.id else { return }
-        print("user from cell", user)
         self.isFavorite = true
         guard let movieName = self.title else { return }
-        ref?.child(user).child("favorite_movies").child(movieName).updateChildValues(["isFavorite": true])
+        firebaseService.addMovieToFavorites(movieName: movieName)
     }
     mutating func unmarkAsFavorite(){
-        ref = Database.database().reference()
-        guard let user = userID.shared.id else { return }
-        guard let movieName = self.title else { return }
         self.isFavorite = false
-        ref?.child(user).child("favorite_movies").child(movieName).removeValue()
+        guard let movieName = self.title else { return }
+        firebaseService.removeMovieFromFavorites(movieName: movieName)
     }
-    
     init(movie: MovieModel){
-        
         posterPath = URLS.image + movie.backdropPath!
         title = movie.title
         releaseDate = movie.releaseDate
@@ -49,7 +41,6 @@ struct MovieCellViewModel {
         overview = movie.overview
         genreID = movie.genreIds
     }
-    
     func cellPosterPath()-> String?{
         return posterPath
     }
@@ -71,5 +62,4 @@ struct MovieCellViewModel {
     func cellGenreID()-> [Int]?{
         return genreID
     }
-    
 }

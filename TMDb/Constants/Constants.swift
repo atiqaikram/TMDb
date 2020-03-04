@@ -17,6 +17,7 @@ enum URLS{
 enum Identifiers{
     static let MovieCell   = "MovieCell"
     static let MovieDetail = "Movie Detail"
+    static let MovieStoryboard = "MoviesStoryboard"
 }
 
 let CLIENT_ID = "932403838453-912enj84g046tpinn4q55berpde3ufqq.apps.googleusercontent.com"

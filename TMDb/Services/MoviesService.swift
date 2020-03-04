@@ -17,36 +17,39 @@ struct MoviesService{
 }
 
 extension MoviesService: DataModelDecoder{
-    func fetchMovies( completion: @escaping (_ movies: MovieResults?)-> ()){
+    /// Fetches the list of movies using the *The Movie Database API * (Trending)
+    /// - Parameter completion: Completion closure with  *MovieResults*  objects or error string
+    func fetchMovies( completion: @escaping (_ movies: MovieResults?, _ error: Error?)-> ()){
         guard let trendingURL = URLS.trending else { return }
         networkHandler.fetchData(path: trendingURL, completion: {(data, error) in
         guard let data = data else {
-            completion(nil)
+            completion(nil, error)
             return
         }
         do {
             let movieResultModel: MovieResults? = try self.decodeModel(data: data)
             let movieResult = movieResultModel
-            completion(movieResult)
+            completion(movieResult, nil)
         } catch {
-            completion(nil)
+            completion(nil, error)
         }
         })
     }
-    
-    func fetchGenres( completion: @escaping (_ movies: GenreResults?)-> ()){
+    /// Fetches the list of movies using the *The Movie Database API * (Genres)
+    /// - Parameter completion: Completion closure with  *MovieResults*  objects or error string
+    func fetchGenres( completion: @escaping (_ movies: GenreResults?, _ error: Error?)-> ()){
         guard let genresURL = URLS.genres else { return }
         networkHandler.fetchData(path: genresURL, completion: {(data, error) in
         guard let data = data else {
-            completion(nil)
+            completion(nil, error)
             return
         }
         do {
             let genreResultModel : GenreResults? = try self.decodeModel(data: data)
             let genreResult = genreResultModel
-            completion(genreResult)
+            completion(genreResult, nil)
         } catch {
-            completion(nil)
+            completion(nil, error)
         }
         })
     }

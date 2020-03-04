@@ -4,12 +4,8 @@
 //
 //  Created by Atiqa Ikram  on 13/02/2020.
 //  Copyright © 2020 Atiqa Ikram . All rights reserved.
-//
 
-import UIKit
-
-
-
+import Foundation
 struct MovieModel: Codable{
     var backdropPath:   String?
     var title:          String?
