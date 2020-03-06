@@ -12,7 +12,7 @@ struct userID{
     var id: String?
     
     private init(){}
-    mutating func setID(sentId: String){
+    mutating func updateUserID(_ sentId: String){
         id = sentId
     }
 }

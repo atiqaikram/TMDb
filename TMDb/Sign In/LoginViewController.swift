@@ -36,7 +36,7 @@ class LoginViewController: UIViewController, GIDSignInDelegate{
           return
         } else{
             guard let id = user.userID else { return }
-            userID.shared.setID(sentId: id)
+            userID.shared.updateUserID(id)
             if let movieViewController = storyboard?.instantiateViewController(withIdentifier: Identifiers.MovieStoryboard) as? MoviesViewController {
                 self.navigationController?.pushViewController(movieViewController, animated: true)
             }

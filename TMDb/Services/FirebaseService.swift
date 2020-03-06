@@ -8,36 +8,34 @@
 
 import Foundation
 import Firebase
-class FirebaseService{
-    private var ref:        DatabaseReference?
-    private var moviesVM:   MoviesViewModel?
-    init(){
-        ref = Database.database().reference()
+protocol FirebaseService {
+    
+    func observeAddedChild(movieName: @escaping (String) -> ())
+    func observeRemovedChild(movieName: @escaping (String) -> ())
+    func addMovieToFavorites(_ movieName: String)
+    func removeMovieFromFavorites(_ movieName: String)
+}
+extension FirebaseService{
+    func addMovieToFavorites(_ movieName: String){
+    guard let user = userID.shared.id else { return }
+    Database.database().reference().child(user).child("favorite_movies").child(movieName).updateChildValues(["isFavorite": true])
     }
-    init (vm: MoviesViewModel?){
-        ref = Database.database().reference()
-        moviesVM = vm
-    }
-    func observeAddedChild(){
+    func removeMovieFromFavorites(_ movieName: String){
         guard let user = userID.shared.id else { return }
-        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childAdded, with: { (snapshot) in
-            let favoriteMovieTitle = (snapshot.key)
-            self.moviesVM?.setFavoriteValueOf(movie: favoriteMovieTitle, flag: true)
-        }))!)
+        Database.database().reference().child(user).child("favorite_movies").child(movieName).removeValue()
     }
-    func observeRemovedChild(){
+    func observeAddedChild(movieName: @escaping (String) -> ()) {
         guard let user = userID.shared.id else { return }
-        _ = ((ref?.child(user).child("favorite_movies").observe(DataEventType.childRemoved, with: { (snapshot) in
-            let favoriteMovieTitle = (snapshot.key)
-            self.moviesVM?.setFavoriteValueOf(movie: favoriteMovieTitle, flag: false)
-               }))!)
+        ((Database.database().reference().child(user).child("favorite_movies").observe(DataEventType.childAdded, with: { (snapshot) in
+            let favoriteMovieTitle = snapshot.key
+            movieName(favoriteMovieTitle)
+        })))
     }
-    func addMovieToFavorites(movieName: String){
+    func observeRemovedChild(movieName: @escaping (String) -> ()) {
         guard let user = userID.shared.id else { return }
-        ref?.child(user).child("favorite_movies").child(movieName).updateChildValues(["isFavorite": true])
-    }
-    func removeMovieFromFavorites(movieName: String){
-        guard let user = userID.shared.id else { return }
-        ref?.child(user).child("favorite_movies").child(movieName).removeValue()
+        ((Database.database().reference().child(user).child("favorite_movies").observe(DataEventType.childRemoved, with: { (snapshot) in
+            let favoriteMovieTitle = snapshot.key
+            movieName(favoriteMovieTitle)
+        })))
     }
 }

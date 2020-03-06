@@ -48,13 +48,13 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifiers.MovieCell, for: indexPath) as? MovieCell else {
            return UITableViewCell()
         }
-        cell.setUpCellWithModel(movie: (moviesViewModel.movieToShow(index: indexPath.row)))
+        cell.setupCellWithModel((moviesViewModel.movieToShow(at: indexPath.row)))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let movieDetailViewController = storyboard?.instantiateViewController(withIdentifier: Identifiers.MovieDetail) as? MoviesDetailsViewController {
-            let movie = moviesViewModel.movieToShow(index: indexPath.row)
+            let movie = moviesViewModel.movieToShow(at: indexPath.row)
             movieDetailViewController.viewModel.detailModel = movie
             self.navigationController?.pushViewController(movieDetailViewController, animated: true)
         }
@@ -74,7 +74,7 @@ extension MoviesViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return moviesViewModel.genreName(index: row)
+        return moviesViewModel.genreName(for: row)
     }
 }
 
@@ -85,13 +85,12 @@ extension MoviesViewController {
     @IBAction func filterButtonPressed(_ sender: Any) {
         if filterButton.title == "Remove Filter" {
             genreButton.isEnabled = true
-            moviesViewModel.setState(changedState: state.defaultView)
-            moviesViewModel.resetMoviesList()
+            moviesViewModel.updateState(state.defaultView)
             filterButton.title = "Filter"
         }
         else {
             genreButton.isEnabled = false
-            moviesViewModel.setState(changedState: .date)
+            moviesViewModel.updateState(.date)
             bottomContainerView.isHidden = false
             datePicker.isHidden = false
             genrePicker.isHidden = true
@@ -101,14 +100,13 @@ extension MoviesViewController {
     @IBAction func genreButtonPressed(_ sender: Any) {
         if genreButton.title == "Remove Filter" {
             filterButton.isEnabled = true
-            moviesViewModel.setState(changedState: state.defaultView)
-            moviesViewModel.resetMoviesList()
+            moviesViewModel.updateState(state.defaultView)
             genreButton.title = "Genre"
         }
         else{
             filterButton.isEnabled = false
             genrePicker.reloadAllComponents()
-            moviesViewModel.setState(changedState: .genre)
+            moviesViewModel.updateState(.genre)
             bottomContainerView.isHidden = false
             genrePicker.isHidden = false
             datePicker.isHidden = true
@@ -117,22 +115,22 @@ extension MoviesViewController {
     @IBAction func doneButton(_ sender: Any) {
         bottomContainerView.isHidden = true
         if moviesViewModel.currentState() == .date{
-            releaseDateSelected(sender: datePicker)
+            releaseDateSelected(datePicker)
         }
         else if moviesViewModel.currentState() == .genre{
-            let pickedGenreId = (moviesViewModel.genreId(index: genrePicker.selectedRow(inComponent: 0)))
-            genreSelected(genreID :pickedGenreId)
+            let pickedGenreId = (moviesViewModel.genreId(for: genrePicker.selectedRow(inComponent: 0)))
+            genreSelected(pickedGenreId)
         }
     }
-    func releaseDateSelected(sender: UIDatePicker){
+    func releaseDateSelected(_ sender: UIDatePicker){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let strDate = dateFormatter.string(from: datePicker.date)
-        moviesViewModel.releaseDateFilter(date: strDate)
+        moviesViewModel.releaseDateFilter(for: strDate)
         filterButton.title = "Remove Filter"
        }
-    func genreSelected(genreID: Int){
-           moviesViewModel.genreFilter(genreID: genreID)
+    func genreSelected(_ genreID: Int){
+           moviesViewModel.genreFilter(for: genreID)
            genreButton.title = "Remove Filter"
        }
 }

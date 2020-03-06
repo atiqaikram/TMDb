@@ -22,10 +22,10 @@ class MoviesDetailsViewController: UIViewController {
         movieTitle.text = viewModel.detailModel?.title
         movieOverview.text = viewModel.detailModel?.overview
         guard let path = viewModel.detailModel?.backdropPath, let voteAng = viewModel.detailModel?.voteAverage else {return}
-        setMovieDetailImage(from: URLS.image + path)
+        placeMovieDetailImage(from: URLS.image + path)
         movieRating.text = String(format:"%.1f", voteAng)
     }
-    func setMovieDetailImage(from url: String) {
+    func placeMovieDetailImage(from url: String) {
         guard let imageURL = URL(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             guard let imageData = try? Data(contentsOf: imageURL) else { return }

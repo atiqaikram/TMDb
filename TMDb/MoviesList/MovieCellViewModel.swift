@@ -9,8 +9,7 @@
 import Foundation
 import UIKit
 
-struct MovieCellViewModel {
-    
+struct MovieCellViewModel :FirebaseService {
     private var posterPath:     String?
     private var title:          String?
     private var releaseDate:    String?
@@ -18,19 +17,17 @@ struct MovieCellViewModel {
     private var isFavorite:     Bool?
     private var overview:       String?
     private var genreID:        [Int]?
-    
-    private var moviesVM             = MoviesViewModel()
-    lazy private var firebaseService = FirebaseService()
-    
+    private var moviesVM      = MoviesViewModel()
+
     mutating func markAsFavorite(){
         self.isFavorite = true
         guard let movieName = self.title else { return }
-        firebaseService.addMovieToFavorites(movieName: movieName)
-    }
+        addMovieToFavorites(movieName)
+}
     mutating func unmarkAsFavorite(){
         self.isFavorite = false
         guard let movieName = self.title else { return }
-        firebaseService.removeMovieFromFavorites(movieName: movieName)
+        removeMovieFromFavorites(movieName)
     }
     init(movie: MovieModel){
         posterPath = URLS.image + movie.backdropPath!

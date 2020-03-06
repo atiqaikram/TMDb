@@ -12,13 +12,19 @@ enum state{
     case genre
     case date
 }
-class MoviesViewModel {
+class MoviesViewModel : FirebaseService{
     private var movies:          Bindable<[MovieModel]> = Bindable([MovieModel] ())
     private var genres:          [GenreModel] = [GenreModel] ()
     private var originalMovies:  [MovieModel] = [MovieModel]()
     private var moviesService                 = MoviesService(handler: NetworkHandler())
-    lazy private var firebaseService          = FirebaseService(vm: self)
-    private var viewState:             state  = .defaultView
+    private var viewState:             state  = .defaultView {
+        didSet{
+            if currentState() == .defaultView {
+                resetMoviesList()
+            }
+        }
+    }
+    
     func downloadMovies(){
         moviesService.fetchMovies (completion: { [weak self] (MovieResults, error) in
             guard let movies = MovieResults else {
@@ -42,18 +48,18 @@ class MoviesViewModel {
     func genreCount() -> Int {
         return genres.count
     }
-    func genreName(index: Int) -> String {
+    func genreName(for index: Int) -> String {
         guard let genreName =  genres[index].name else {return ""}
         return genreName
     }
-    func genreId(index: Int) -> Int{
+    func genreId(for index: Int) -> Int{
         guard let genreID = genres[index].id  else {return 0}
         return genreID
     }
     func movieCount() -> Int {
         return movies.value.count
     }
-    func movieToShow(index: Int) -> MovieModel {
+    func movieToShow(at index: Int) -> MovieModel {
         if movies.value[index].isFavorite == nil {
             movies.value[index].isFavorite = false
         }
@@ -62,25 +68,29 @@ class MoviesViewModel {
     func movieList() -> Bindable<[MovieModel]> {
         return movies
     }
-    func releaseDateFilter(date: String){
+    func releaseDateFilter(for date: String){
        movies.value = movies.value.filter({ $0.releaseDate == date })
     }
-    func genreFilter(genreID: Int){
+    func genreFilter(for genreID: Int){
         movies.value = movies.value.filter({ ($0.genreIds?.contains(genreID))!})
     }
     func currentState()-> state{
         return viewState
     }
-    func setState(changedState: state){
+    func updateState(_ changedState: state){
         viewState = changedState
     }
     func childAddedListener(){
-        firebaseService.observeAddedChild()
+        observeAddedChild { (movieName) in
+            self.updateFavoriteValue(for: movieName, flag: true)
+        }
     }
     func childRemovedListener(){
-        firebaseService.observeRemovedChild()
+        observeRemovedChild { (movieName) in
+            self.updateFavoriteValue(for: movieName, flag: false)
+        }
     }
-    func setFavoriteValueOf(movie: String, flag: Bool){
+    private func updateFavoriteValue(for movie: String, flag: Bool){
         if let movieIndex = movies.value.firstIndex(where: { $0.title == movie }){
             movies.value[movieIndex].isFavorite = flag
             if viewState == .defaultView{

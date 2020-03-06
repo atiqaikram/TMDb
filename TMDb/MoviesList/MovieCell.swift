@@ -29,7 +29,7 @@ class MovieCell: UITableViewCell {
             favButton.setImage(filledStar, for: .normal)
         }
     }
-    private func setMovieImage(from url: String) {
+    private func placeMovieImage(from url: String) {
         guard let imageURL = URL(string: url) else { return }
         DispatchQueue.global().async { [weak self] in
             guard let imageData = try? Data(contentsOf: imageURL) else { return }
@@ -39,12 +39,12 @@ class MovieCell: UITableViewCell {
             }
         }
     }
-    func setUpCellWithModel(movie: MovieModel){
+    func setupCellWithModel(_ movie: MovieModel){
         let filledStar = UIImage(named: "filledStar")
         let emptyStar = UIImage(named: "emptyStar")
         cellViewModel = MovieCellViewModel(movie: movie)
         guard let moviePosterPath = cellViewModel?.cellPosterPath() else { return }
-        setMovieImage(from: moviePosterPath)
+        placeMovieImage(from: moviePosterPath)
         movieTitle.text = cellViewModel?.cellTitle()
         releaseDate.text = cellViewModel?.cellReleaseDate()
         guard let movieRating = cellViewModel?.cellRating() else { return }
