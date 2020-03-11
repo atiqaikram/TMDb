@@ -7,13 +7,13 @@
 //
 
 import Foundation
-enum state{
+enum state{//TODO: Use a meaningful name for this state for example viewType or viewtate
     case defaultView
     case genre
     case date
 }
 class MoviesViewModel : FirebaseService{
-    private var movies:          Bindable<[MovieModel]> = Bindable([MovieModel] ())
+    private var movies:          Bindable<[MovieModel]> = Bindable([MovieModel]())
     private var genres:          [GenreModel] = [GenreModel] ()
     private var originalMovies:  [MovieModel] = [MovieModel]()
     private var moviesService                 = MoviesService(handler: NetworkHandler())
@@ -34,6 +34,7 @@ class MoviesViewModel : FirebaseService{
             self?.originalMovies = movies.results
         })
    }
+    //TODO: This file is not properly indented.
     func downloadGenres(){
         moviesService.fetchGenres(completion: { [weak self] (GenreResults, error) in
             guard let genreResults = GenreResults else {
@@ -72,6 +73,7 @@ class MoviesViewModel : FirebaseService{
        movies.value = movies.value.filter({ $0.releaseDate == date })
     }
     func genreFilter(for genreID: Int){
+        //TODO: remove force unwrapping below use gaurd statement on genreIds and
         movies.value = movies.value.filter({ ($0.genreIds?.contains(genreID))!})
     }
     func currentState()-> state{
@@ -81,11 +83,13 @@ class MoviesViewModel : FirebaseService{
         viewState = changedState
     }
     func childAddedListener(){
+        //TODO: capture weak reference instead of directly calling self
         observeAddedChild { (movieName) in
             self.updateFavoriteValue(for: movieName, flag: true)
         }
     }
     func childRemovedListener(){
+        //TODO: capture weak reference instead of directly calling self
         observeRemovedChild { (movieName) in
             self.updateFavoriteValue(for: movieName, flag: false)
         }

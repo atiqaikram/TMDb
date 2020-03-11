@@ -30,6 +30,7 @@ class MoviesViewController: UIViewController {
         moviesViewModel.childAddedListener()
         moviesViewModel.childRemovedListener()
         moviesViewModel.movieList().bind({ [weak self] _ in
+            //TODO: dispatch block is not properly indented
         DispatchQueue.main.async {
             self?.moviesTableView.reloadData()
         }
@@ -85,6 +86,7 @@ extension MoviesViewController {
     @IBAction func filterButtonPressed(_ sender: Any) {
         if filterButton.title == "Remove Filter" {
             genreButton.isEnabled = true
+            //TODO: no need to use state.defaultView just use .defaultView
             moviesViewModel.updateState(state.defaultView)
             filterButton.title = "Filter"
         }

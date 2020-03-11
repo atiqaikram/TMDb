@@ -23,7 +23,7 @@ extension DataModelDecoder{
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         do{
             let downloadedResults = try decoder.decode(DataModel.self, from: data)
-            return downloadedResults
+            return downloadedResults//TODO: Remove extra newline below
             
         }
         catch (let decodeError) {
