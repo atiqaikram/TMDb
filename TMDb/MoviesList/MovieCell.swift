@@ -18,8 +18,8 @@ class MovieCell: UITableViewCell {
     var cellViewModel:                  MovieCellViewModel?
     var movieViewModel:                 MoviesViewModel?
     @IBAction func favoriteTapped(_ sender: Any) {
-        let filledStar = #imageLiteral(resourceName: "rating")
-        let emptyStar = UIImage(named: "emptyStar") //TODO: you could use imageLiteral like I used above and image will show instead of image name can help better visualize source image try it for the empty star here
+        let filledStar = #imageLiteral(resourceName: "filledStar")
+        let emptyStar = #imageLiteral(resourceName: "emptyStar") 
         let currentState = cellViewModel?.cellFavoriteState()
         if currentState == true {
             cellViewModel?.unmarkAsFavorite()

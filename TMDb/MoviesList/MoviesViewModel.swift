@@ -24,7 +24,6 @@ class MoviesViewModel : FirebaseService{
             }
         }
     }
-    
     func downloadMovies(){
         moviesService.fetchMovies (completion: { [weak self] (MovieResults, error) in
             guard let movies = MovieResults else {
@@ -33,8 +32,7 @@ class MoviesViewModel : FirebaseService{
             self?.movies.value = movies.results
             self?.originalMovies = movies.results
         })
-   }
-    //TODO: This file is not properly indented.
+    }
     func downloadGenres(){
         moviesService.fetchGenres(completion: { [weak self] (GenreResults, error) in
             guard let genreResults = GenreResults else {
@@ -50,11 +48,11 @@ class MoviesViewModel : FirebaseService{
         return genres.count
     }
     func genreName(for index: Int) -> String {
-        guard let genreName =  genres[index].name else {return ""}
+        guard let genreName =  genres[index].name else { return "" }
         return genreName
     }
     func genreId(for index: Int) -> Int{
-        guard let genreID = genres[index].id  else {return 0}
+        guard let genreID = genres[index].id  else { return 0 }
         return genreID
     }
     func movieCount() -> Int {
@@ -73,8 +71,7 @@ class MoviesViewModel : FirebaseService{
        movies.value = movies.value.filter({ $0.releaseDate == date })
     }
     func genreFilter(for genreID: Int){
-        //TODO: remove force unwrapping below use gaurd statement on genreIds and
-        movies.value = movies.value.filter({ ($0.genreIds?.contains(genreID))!})
+        movies.value = movies.value.filter({ (($0.genreIds?.contains(genreID) ?? false))})
     }
     func currentState()-> state{
         return viewState
@@ -83,15 +80,13 @@ class MoviesViewModel : FirebaseService{
         viewState = changedState
     }
     func childAddedListener(){
-        //TODO: capture weak reference instead of directly calling self
-        observeAddedChild { (movieName) in
-            self.updateFavoriteValue(for: movieName, flag: true)
+        observeAddedChild { [weak self] (movieName) in
+            self?.updateFavoriteValue(for: movieName, flag: true)
         }
     }
     func childRemovedListener(){
-        //TODO: capture weak reference instead of directly calling self
-        observeRemovedChild { (movieName) in
-            self.updateFavoriteValue(for: movieName, flag: false)
+        observeRemovedChild { [weak self] (movieName) in
+            self?.updateFavoriteValue(for: movieName, flag: false)
         }
     }
     private func updateFavoriteValue(for movie: String, flag: Bool){

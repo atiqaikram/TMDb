@@ -28,9 +28,7 @@ extension MoviesService: DataModelDecoder{
         }
         do {
             let movieResultModel: MovieResults? = try self.decodeModel(data: data)
-            //TODO: no need for the line of code below its just assigning the reference why not pass the original variable
-            let movieResult = movieResultModel
-            completion(movieResult, nil)
+            completion(movieResultModel, nil)
         } catch {
             completion(nil, error)
         }
